@@ -40,40 +40,43 @@ app.post("/", (req, res) => {
 });
 
 function processPostData(option, tagId) {
-  let filename = `${option}.txt`;
+  let filename = `maestro_producto.txt`;
 
-  // If file does not exist, create it
-  if (!fs.existsSync(filename)) {
-    fs.writeFileSync(filename, "", (err) => {
+  // Check if the file exists and if not, create it
+  fs.access(filename, fs.constants.F_OK, (err) => {
+    if (err) {
+      fs.writeFileSync(filename, "", (err) => {
+        if (err) {
+          console.error(err);
+        }
+      });
+    }
+
+    fs.readFile(filename, "utf8", (err, data) => {
       if (err) {
-        console.log(`Error creating file '${filename}'`);
+        console.log(`Error reading file '${filename}'`);
         console.error(err);
         return;
       }
+
+      // Check if the idHex is already in the file
+      if (!data.includes(tagId)) {
+        let writeData = `${tagId},${option}\n`;
+
+        fs.appendFile(filename, writeData, { flag: "a+" }, (err) => {
+          if (err) {
+            console.log(`Error writing to file '${filename}'`);
+            console.error(err);
+          } else {
+            console.log(`Data added to file '${filename}': ${writeData}`);
+          }
+        });
+      } else {
+        console.log(
+          `ID ${tagId} already exists in '${filename}', not adding again.`
+        );
+      }
     });
-  }
-
-  // Check if ID is already in file
-  fs.readFile(filename, "utf8", (err, data) => {
-    if (err) {
-      console.log(`Error reading file '${filename}'`);
-      console.error(err);
-      return;
-    }
-
-    // If ID is not in file, append it
-    if (!data.includes(tagId)) {
-      fs.appendFile(filename, `${tagId}\n`, { flag: "a+" }, (err) => {
-        if (err) {
-          console.log(`Error writing tag ID to file '${filename}': ${tagId}`);
-          console.error(err);
-        } else {
-          console.log(`Tag ID added to file '${filename}': ${tagId}`);
-        }
-      });
-    } else {
-      console.log(`Tag ID already in file '${filename}': ${tagId}`);
-    }
   });
 }
 
