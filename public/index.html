@@ -1,13 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>RFID Reader</title>
+    <meta charset="UTF-8" />
+    <title>Farmatodo RFID</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <button id="dollys-button">Dollys</button>
-    <button id="rollers-button">Rollers</button>
-    <button id="cajas-button">Cajas</button>
+    <div class="navbar">
+      <div class="navbar">
+        <a href="#inventario" onclick="showInventory()">Inventario</a>
+        <a href="#despacho" onclick="showDespacho()">Despacho</a>
+        <a href="#contadores" onclick="showContadores()">Contadores</a>
+      </div>
+    </div>
+    <div id="inventory" class="container">
+      <h2>Inventario</h2>
+      <button id="dollys-button">Dollys</button>
+      <button id="rollers-button">Rollers</button>
+      <button id="cajas-button">Cajas</button>
+      <button id="startInventoryBtn" onclick="startInventoryBtn()">
+        Iniciar Inventario
+      </button>
+      <button id="stopInventoryBtn" onclick="stopInventoryBtn()" disabled>
+        Detener Inventario
+      </button>
+    </div>
 
-    <script src="script.js"></script>
+    <div id="despacho" style="display: none">
+      <h2>Despacho</h2>
+      <button id="startBtn" onclick="startCounting()">Iniciar</button>
+      <button id="stopBtn" onclick="stopCounting()" disabled>Detener</button>
+      <button onclick="processProduct('dolys')">Añadir Doly</button>
+      <button onclick="processProduct('rollers')">Añadir Roller</button>
+      <button onclick="processProduct('cajas')">Añadir Caja</button>
+    </div>
+    <div id="contadores" style="display: none">
+      <h2>Contadores</h2>
+      <p>Dolys: <span id="dolysCounter">0</span></p>
+      <p>Rollers: <span id="rollersCounter">0</span></p>
+      <p>Cajas: <span id="cajasCounter">0</span></p>
+    </div>
+
+    <script src="./script.js"></script>
   </body>
 </html>

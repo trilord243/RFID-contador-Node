@@ -1,0 +1,22 @@
+body {
+  font-family: Arial, sans-serif;
+}
+.navbar {
+  background-color: #008cba; /* Blue color */
+  overflow: hidden; /* Ensures the content is contained */
+}
+.navbar a {
+  float: left; /* Make sure each item is aligned to the left */
+  display: block; /* Each item should take up the entire block */
+  color: white; /* Make the text white */
+  text-align: center; /* Center align the text */
+  padding: 14px 16px; /* Add some padding */
+  text-decoration: none; /* Remove underline */
+}
+.navbar a:hover {
+  background-color: #ddd; /* Change background on hover */
+  color: black; /* Change text color on hover */
+}
+.container {
+  margin: 20px;
+}

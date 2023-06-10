@@ -7,8 +7,21 @@ app.use(express.json());
 app.use(cors());
 
 let currentOption = "default"; // Option is now a global variable
+let processing = false; // Variable para controlar si el servidor está procesando datos
 
 app.options("*", cors());
+
+app.post("/start", (req, res) => {
+  processing = true;
+  console.log("Processing started");
+  res.send("Processing started");
+});
+
+app.post("/stop", (req, res) => {
+  processing = false;
+  console.log("Processing stopped");
+  res.send("Processing stopped");
+});
 
 app.post("/", (req, res) => {
   res.setHeader("Content-Type", "application/json");
@@ -24,10 +37,11 @@ app.post("/", (req, res) => {
   console.log("Received POST request with body:");
   console.log(jsonData);
 
-  if ("option" in jsonData) {
+  if (processing && "option" in jsonData) {
     currentOption = jsonData["option"];
     console.log(`Option updated to: ${currentOption}`);
   } else if (
+    processing &&
     Array.isArray(jsonData) &&
     jsonData.length > 0 &&
     jsonData[0].data &&
