@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contador</title>
+    <style>
+      body {
+        background-color: #f0f8ff;
+        font-family: Arial, sans-serif;
+        color: #333;
+      }
+      .icon {
+        height: 50px;
+        width: 50px;
+        margin: 5px;
+      }
+      .dolly {
+        background: url("dolly.png") no-repeat center;
+      }
+      .caja {
+        background: url("caja.png") no-repeat center;
+      }
+      .roller {
+        background: url("roller.png") no-repeat center;
+      }
+      button {
+        background-color: #4c7ef3;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+      }
+      button:hover {
+        background-color: #729cf5;
+      }
+      #contadores {
+        margin-top: 20px;
+        font-size: 1.2em;
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  </head>
+  <body>
+    <button onclick="inicializar()">Inicializar</button>
+    <div id="contadores">
+      Dollys: <span id="dollys">0</span><br />
+      Cajas: <span id="cajas">0</span><br />
+      Rollers: <span id="rollers">0</span><br />
+    </div>
+    <div id="dollysIcons"></div>
+    <div id="cajasIcons"></div>
+    <div id="rollersIcons"></div>
+    <script>
+      function inicializar() {
+        // Enviar una solicitud POST al servidor para iniciar la cuenta
+        $.post("http://localhost:3000/inicializar", function () {
+          console.log("Inicializando contadores...");
+        });
+
+        // Crear un intervalo para obtener y actualizar los datos de los contadores
+        setInterval(() => {
+          $.getJSON("http://localhost:3000/contadores", (data) => {
+            // Actualizar contadores
+            $("#dollys").text(data.dollys);
+            $("#cajas").text(data.cajas);
+            $("#rollers").text(data.rollers);
+
+            // Añadir iconos
+            while ($("#dollysIcons").children().length < data.dollys) {
+              $("#dollysIcons").append('<div class="icon dolly"></div>');
+            }
+            while ($("#cajasIcons").children().length < data.cajas) {
+              $("#cajasIcons").append('<div class="icon caja"></div>');
+            }
+            while ($("#rollersIcons").children().length < data.rollers) {
+              $("#rollersIcons").append('<div class="icon roller"></div>');
+            }
+          });
+        }, 1000); // Actualiza los contadores cada segundo
+      }
+    </script>
+  </body>
+</html>

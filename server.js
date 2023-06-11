@@ -1,13 +1,13 @@
 const express = require("express");
 const fs = require("fs");
 const cors = require("cors");
-
-const app = express();
+const bodyParser = require("body-parser");
+let app = express();
 app.use(express.json());
 app.use(cors());
 
 let currentOption = "default"; // Option is now a global variable
-
+app.use(cors());
 app.options("*", cors());
 
 app.post("/", (req, res) => {
