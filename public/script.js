@@ -26,3 +26,29 @@ function sendOption(option) {
       console.error("Error:", error);
     });
 }
+
+document
+  .getElementById("mostrar-datos-button")
+  .addEventListener("click", function () {
+    fetch("http://localhost:6969/datos")
+      .then((response) => response.json())
+      .then((data) => {
+        // Mostrar los datos
+        let tabla = "<table><tr><th>ID</th><th>Tipo</th></tr>";
+        data.data.forEach((item) => {
+          tabla += `<tr><td>${item.id}</td><td>${item.tipo}</td></tr>`;
+        });
+        tabla += "</table>";
+        document.getElementById("datos").innerHTML = tabla;
+
+        // Mostrar los contadores
+        let contadores =
+          `Cajas: ${data.contadores.cajas}<br/>` +
+          `Dollys: ${data.contadores.dollys}<br/>` +
+          `Rollers: ${data.contadores.rollers}`;
+        document.getElementById("contadores").innerHTML = contadores;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });

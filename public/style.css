@@ -45,3 +45,33 @@ h1 {
 .button:focus {
   outline: none;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #007bff;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.data-table {
+  max-height: 200px; /* Ajusta esto al valor que quieras */
+  overflow-y: auto; /* Esto permitirá el desplazamiento vertical si la tabla es demasiado larga */
+  margin-top: 20px; /* Espacio en la parte superior */
+  text-align: left; /* Alinear el texto a la izquierda */
+}

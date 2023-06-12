@@ -2,12 +2,12 @@ const express = require("express");
 const fs = require("fs");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-let app = express();
+const app = express();
 app.use(express.json());
 app.use(cors());
 
 let currentOption = "default"; // Option is now a global variable
-app.use(cors());
+
 app.options("*", cors());
 
 app.post("/", (req, res) => {
@@ -90,6 +90,33 @@ fs.access(defaultFile, fs.constants.F_OK, (err) => {
       }
     });
   }
+});
+app.get("/datos", (req, res) => {
+  fs.readFile("maestro_producto.txt", "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+
+    let lineas = data.split("\n");
+    let result = lineas.map((linea) => {
+      let partes = linea.split(",");
+      return { id: partes[0], tipo: partes[1] };
+    });
+
+    let contadores = {
+      cajas: 0,
+      dollys: 0,
+      rollers: 0,
+    };
+    result.forEach((item) => {
+      if (item.tipo in contadores) {
+        contadores[item.tipo]++;
+      }
+    });
+
+    res.json({ data: result, contadores: contadores });
+  });
 });
 
 const PORT = 6969;
